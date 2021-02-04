@@ -238,7 +238,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Just the standard stuff
 ```typescript
-  postData(accessToken, `/api/v1.0/project`, {
+  old_postData(accessToken, `/api/v1.0/project`, {
     name: processTitle,
     objects: [
       {
@@ -258,7 +258,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## Everything but the kitchen sink
 >NB. Actually missing choice. (Waiting on api-support) 
 ```typescript
-          postData(accessToken, `/api/v1.0/project`, {
+          old_postData(accessToken, `/api/v1.0/project`, {
   name: processTitle,
   objects: [
     {

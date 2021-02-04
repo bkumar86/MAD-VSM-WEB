@@ -1,11 +1,13 @@
 import { Configuration, PopupRequest } from "@azure/msal-browser";
 import getClientId from "../utils/getClientId";
 import getAPIScope from "../utils/getAPIScope";
+import { tenantSpecificEndpoint } from "../pages/LoginPage";
 
 // Config object to be passed to Msal on creation
 export const msalConfig: Configuration = {
   auth: {
     clientId: getClientId(),
+    authority: tenantSpecificEndpoint,
   },
 };
 

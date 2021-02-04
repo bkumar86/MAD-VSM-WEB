@@ -1,12 +1,9 @@
-/* eslint-disable sonarjs/no-duplicate-string */
 import React, { useEffect, useState } from "react";
 import { AppTopBar, VSMCanvas } from "../components";
 import { useLocation } from "react-router";
 import { AccountInfo } from "@azure/msal-browser";
 import { useAccount, useMsal } from "@azure/msal-react";
 import { getData } from "../utils/GetData";
-import ReactJson from "react-json-view";
-import { isMobile } from "react-device-detect";
 
 export function VSMPage(): JSX.Element {
   const location = useLocation();
@@ -23,8 +20,7 @@ export function VSMPage(): JSX.Element {
     // Should we set current project here then? Then fetch
   }, [location]);
 
-  useEffect(() => {
-    //Only trigger if we have a project
+  function fetchProject() {
     if (project) {
       setLoading(true);
       getData(
@@ -37,18 +33,18 @@ export function VSMPage(): JSX.Element {
         }
       );
     }
+  }
+
+  useEffect(() => {
+    //Only trigger if we have a project
+    fetchProject();
   }, [account, project]);
 
   console.log(VSMData);
   return (
     <div>
       <AppTopBar style={{ position: "fixed", width: "100%" }} />
-      {/*{!isMobile && (*/}
-      {/*  <div className={"vsmSideMenu"}>*/}
-      {/*    <ReactJson src={VSMData} theme={"apathy:inverted"} />*/}
-      {/*  </div>*/}
-      {/*)}*/}
-      <VSMCanvas data={VSMData} />
+      <VSMCanvas data={VSMData} refreshProject={() => fetchProject()} />
     </div>
   );
 }

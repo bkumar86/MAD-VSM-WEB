@@ -55,7 +55,7 @@ export default function MainActivity({
     breakWords: true,
     trim: true,
   };
-
+  console.log({ text, header });
   const textElement = new PIXI.Text(
     truncateText(text || header, 55),
     defaultStyle

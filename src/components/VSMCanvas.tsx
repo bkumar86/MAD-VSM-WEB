@@ -10,6 +10,9 @@ import SubActivity from "./canvas/entities/SubActivity";
 import Waiting from "./canvas/entities/Waiting";
 import { truncateText } from "./canvas/TruncateText";
 import ReactJson from "react-json-view";
+import { SingleSelect, TextField } from "@equinor/eds-core-react";
+import { useAccount, useMsal } from "@azure/msal-react";
+import { patchData } from "../utils/PatchData";
 
 function vsmObjectFactory(
   o: { name: string; vsmObjectType: { name: string; pkObjectType: number } },
@@ -36,7 +39,7 @@ function vsmObjectFactory(
         onPress: () => onPress(),
       });
     case vsmObjectTypes.mainActivity:
-      return MainActivity({ text: name, onPress: () => onPress() });
+      return MainActivity({ text: o.name, onPress: () => onPress() });
     case vsmObjectTypes.subActivity:
       return SubActivity({ x: 0, y: 0, content: name });
     case vsmObjectTypes.waiting:
@@ -57,15 +60,23 @@ function vsmObjectFactory(
   }
 }
 
+const defaultObject = {
+  name: "",
+  vsmObjectType: { name: "", pkObjectType: 0 },
+  vsmObjectID: 0,
+  time: 0,
+  role: "",
+};
+
 export function VSMCanvas(props: {
   style?: React.CSSProperties | undefined;
   data: any;
+  refreshProject: () => void;
 }): JSX.Element {
   const ref = useRef(document.createElement("div"));
-
-  const [selectedObject, setSelectedObject] = useState({
-    name: "",
-  });
+  const { instance, accounts } = useMsal();
+  const account = useAccount(accounts[0] || {});
+  const [selectedObject, setSelectedObject] = useState(defaultObject);
 
   useEffect(() => {
     // PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
@@ -91,7 +102,7 @@ export function VSMCanvas(props: {
         .wheel()
         .decelerate({ friction: 0.15 });
     } else viewport.drag().wheel().decelerate({ friction: 0.15 });
-    viewport.on("clicked", () => setSelectedObject({ name: "" }));
+    viewport.on("clicked", () => setSelectedObject(defaultObject));
 
     // Add app to DOM
     ref.current.appendChild(app.view);
@@ -127,7 +138,6 @@ export function VSMCanvas(props: {
     projectText.alpha = 0.4;
     projectText.resolution = 4;
 
-    console.log(props.data);
     const rootObject = props.data.objects ? props.data.objects[0] : null;
     const levelOne = new PIXI.Container();
     if (rootObject) {
@@ -145,6 +155,9 @@ export function VSMCanvas(props: {
         (o: {
           name: string;
           vsmObjectType: { name: string; pkObjectType: number };
+          vsmObjectID: number;
+          time: number;
+          role: string;
         }) => {
           const onPress = () => setTimeout(() => setSelectedObject(o), 10);
           return vsmObjectFactory(o, onPress);
@@ -162,7 +175,6 @@ export function VSMCanvas(props: {
     levelOne.x = levelTwo.width / 2 + levelOne.width / 2 + 23.5; //Todo: figure out better logic for centering
     levelOne.y = levelTwo.y - 200;
     viewport.addChild(levelOne, levelTwo);
-    console.log(viewport);
 
     return () => {
       app.stop();
@@ -171,13 +183,100 @@ export function VSMCanvas(props: {
     };
   }, [props.data]);
 
+  let a: NodeJS.Timeout;
+
+  function updateName(newName: string) {
+    setSelectedObject({ ...selectedObject, name: newName });
+    if (a) clearTimeout(a);
+    a = setTimeout(() => {
+      patchData(
+        "/api/v1.0/vsmObject",
+        {
+          vsmObjectID: selectedObject.vsmObjectID,
+          name: newName,
+        },
+        account,
+        instance,
+        (response: any) => {
+          props.refreshProject();
+          console.log({ response });
+        }
+      );
+    }, 1000);
+  }
+
   return (
     <>
       <div
         className={
-          selectedObject.name === "" ? "vsmSideMenu hideToRight" : "vsmSideMenu"
+          selectedObject === defaultObject
+            ? "vsmSideMenu hideToRight"
+            : "vsmSideMenu"
         }
       >
+        <h1 className="sideBarHeader">{selectedObject.vsmObjectType.name}</h1>
+        <div className="sideBarSectionHeader">
+          <p>General Information</p>
+        </div>
+        <div style={{ paddingTop: 8 }}>
+          <TextField
+            label="Add description"
+            multiline
+            rows={4}
+            variant="default"
+            value={selectedObject.name}
+            onChange={(event: { target: { value: any } }) => {
+              const newName = event.target.value;
+              updateName(newName);
+            }}
+            id="vsmObjectDescription"
+          />
+        </div>
+        <div style={{ display: "flex", paddingTop: 10 }}>
+          {(selectedObject.vsmObjectType.pkObjectType ===
+            vsmObjectTypes.mainActivity ||
+            selectedObject.vsmObjectType.pkObjectType ===
+              vsmObjectTypes.subActivity) && (
+            <>
+              <TextField
+                disabled
+                label="Role"
+                variant="default"
+                value={selectedObject.role?.toString() ?? "Role"}
+                id={"vsmObjectRole"}
+              />
+              <div style={{ padding: 8 }} />
+              <TextField
+                disabled
+                label="Time"
+                value={selectedObject.time?.toString() ?? "1 min"}
+                variant="default"
+                id={"vsmObjectTime"}
+              />
+            </>
+          )}
+        </div>
+        <div className="sideBarSectionHeader">
+          <p>Add problem, idea or question</p>
+        </div>
+        <SingleSelect
+          disabled
+          items={[
+            "Problem",
+            "Idea",
+            "Question",
+            "Existing Problem",
+            "Existing Idea",
+            "Existing Question",
+          ]}
+          handleSelectedItemChange={(changes) => console.log(changes)}
+          label="Select type"
+        />
+
+        {/*Todo: Add accordion */}
+        <div className="sideBarSectionHeader">
+          <p>Debug section</p>
+        </div>
         <ReactJson src={selectedObject} theme={"apathy:inverted"} />
       </div>
       <div style={props.style} ref={ref} />

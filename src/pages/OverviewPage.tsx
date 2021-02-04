@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
-import { AccountInfo, IPublicClientApplication } from "@azure/msal-browser";
+import { AccountInfo } from "@azure/msal-browser";
 import { AppTopBar } from "../components";
 import { AuthenticatedTemplate, useAccount, useMsal } from "@azure/msal-react";
 import { Button, Icon } from "@equinor/eds-core-react";
 import { VSMCard } from "../components/VSMCard";
 import { apiScopes } from "../config/authConfig";
-import { fetchData } from "../utils/fetchData";
-import { postData } from "../utils/postData";
-import { kitchenSink, simpleProcess } from "../utils/processSamples";
+import { simpleProcess } from "../utils/processSamples";
 import { tenantSpecificEndpoint } from "./LoginPage";
 import { useHistory } from "react-router-dom";
+import { getData } from "../utils/GetData";
+import { postData } from "../utils/PostData";
 
 interface VSMInterface {
   vsmProjectID: number;
@@ -33,11 +33,13 @@ function LoadingIndicator(props: { isLoading: boolean }) {
   );
 }
 
-export const getSilentRequest = (account: AccountInfo) => ({
-  ...apiScopes,
-  account: account,
-  authority: tenantSpecificEndpoint,
-});
+export const getSilentRequest = (account: AccountInfo) => {
+  return {
+    ...apiScopes,
+    account: account,
+    authority: tenantSpecificEndpoint,
+  };
+};
 
 export function OverviewPage(): JSX.Element {
   const { instance, accounts } = useMsal();
@@ -47,35 +49,16 @@ export function OverviewPage(): JSX.Element {
   const history = useHistory();
 
   useEffect(() => {
-    getMyValueStreamMaps(
+    getData(
       "/api/v1.0/project",
       account as AccountInfo,
       instance,
-      (response: React.SetStateAction<never[]>) => {
+      (response: any) => {
         setVSMData(response);
         setLoading(false);
       }
     );
   }, [account]);
-
-  function getMyValueStreamMaps(
-    url: string,
-    useAccount: AccountInfo,
-    useInstance: IPublicClientApplication,
-    callback: { (response: any): void; (arg0: any): void }
-  ): void {
-    if (useAccount) {
-      useInstance
-        .acquireTokenSilent(getSilentRequest(useAccount))
-        .then(({ accessToken }) => {
-          fetchData(accessToken, url).then((response) => {
-            if (callback) {
-              callback(response);
-            }
-          });
-        });
-    }
-  }
 
   function createNewVSM(
     history:
@@ -83,31 +66,27 @@ export function OverviewPage(): JSX.Element {
       | { pathname: string; search: string }[]
   ) {
     setLoading(true);
-    if (account) {
-      instance
-        .acquireTokenSilent(getSilentRequest(account))
-        .then(({ accessToken }) => {
-          postData(accessToken, `/api/v1.0/project`, simpleProcess).then(
-            (response) => {
-              setLoading(false);
-              const { vsmProjectID } = response;
-              if (vsmProjectID) {
-                history.push({
-                  pathname: "/vsm",
-                  search: `project=${vsmProjectID}`,
-                });
-              }
-            }
-          );
-        });
-    }
-    setLoading(false);
+    postData(
+      `/api/v1.0/project`,
+      simpleProcess,
+      account,
+      instance,
+      (response: { vsmProjectID: any }) => {
+        setLoading(false);
+        const { vsmProjectID } = response;
+        if (vsmProjectID) {
+          history.push({
+            pathname: "/vsm",
+            search: `project=${vsmProjectID}`,
+          });
+        }
+      }
+    );
   }
 
   return (
     <>
       <AppTopBar />
-
       <div className={"appear"} style={{ padding: 24 }}>
         <AuthenticatedTemplate>
           <div

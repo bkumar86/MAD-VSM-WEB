@@ -1,9 +1,10 @@
 import getApiBaseUrl from "./getApiBaseUrl";
 
-export async function postData(
+export async function sendRequest(
   accessToken: string,
   url: string,
-  body: unknown
+  method = "GET",
+  payload?: unknown
 ): Promise<any> {
   const headers = new Headers();
   const bearer = `Bearer ${accessToken}`;
@@ -11,9 +12,9 @@ export async function postData(
   headers.append("Content-Type", "application/json");
 
   return fetch(getApiBaseUrl() + url, {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify(body),
+    method,
+    headers,
+    body: JSON.stringify(payload) ?? null,
   })
     .then((response) => response.json())
     .catch((error) => console.log(error));
