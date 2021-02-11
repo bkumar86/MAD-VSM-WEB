@@ -23,19 +23,19 @@ spec:
       environmentConfig:
         - environment: dev
           variables:
-            REACT_APP_API_BASE_URL: https://api.statoil.com/app/vsm/dev
-            REACT_APP_API_SCOPE: c001f24f-64a7-4f0c-bfe8-bf9c8e7aa74c/api.access
-            REACT_APP_CLIENT_ID: e6e2f3c4-d6bd-4d71-a00e-be0c16a703da
-            REACT_APP_TENANT_ID: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+            NEXT_PUBLIC_AD_CLIENT_ID: e6e2f3c4-d6bd-4d71-a00e-be0c16a703da
+            NEXT_PUBLIC_SCOPE: c001f24f-64a7-4f0c-bfe8-bf9c8e7aa74c/api.access
+            NEXT_PUBLIC_API_BASEURL: https://api.statoil.com/app/vsm/dev
+            NEXT_PUBLIC_AD_AUTHORITY: https://login.microsoftonline.com/statoilsrm.onmicrosoft.com
         - environment: test
           variables:
-            REACT_APP_API_BASE_URL: https://api.statoil.com/app/vsm/test
-            REACT_APP_API_SCOPE: cf7bf606-0fca-498d-9ec5-74d32a6ab4cf/api_access
-            REACT_APP_CLIENT_ID: b3e899bf-12af-4f63-8744-d1ef4edc30b5
-            REACT_APP_TENANT_ID: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+            NEXT_PUBLIC_API_BASEURL: https://api.statoil.com/app/vsm/test
+            NEXT_PUBLIC_SCOPE: cf7bf606-0fca-498d-9ec5-74d32a6ab4cf/api_access
+            NEXT_PUBLIC_AD_CLIENT_ID: b3e899bf-12af-4f63-8744-d1ef4edc30b5
+            NEXT_PUBLIC_AD_AUTHORITY: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
         - environment: qa
           variables:
-            REACT_APP_API_BASE_URL: https://api.statoil.com/app/vsm/qa
-            REACT_APP_API_SCOPE: b78f9306-406d-4fa8-98e5-001dcd933ff4/user_impersonation
-            REACT_APP_CLIENT_ID: 7fe4fa03-733a-414d-8d32-0a9358b5eeb9
-            REACT_APP_TENANT_ID: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0
+            NEXT_PUBLIC_API_BASEURL: https://api.statoil.com/app/vsm/qa
+            NEXT_PUBLIC_SCOPE: b78f9306-406d-4fa8-98e5-001dcd933ff4/user_impersonation
+            NEXT_PUBLIC_AD_CLIENT_ID: 7fe4fa03-733a-414d-8d32-0a9358b5eeb9
+            NEXT_PUBLIC_AD_AUTHORITY: 3aa4a235-b6e2-48d5-9195-7fcf05b459b0

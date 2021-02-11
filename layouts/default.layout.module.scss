@@ -1,0 +1,14 @@
+@import '../styles/variables';
+
+.title {
+  font-size: 18px !important;
+  padding: 4px 12px;
+  text-align: center;
+  border-radius: 4px;
+
+  transition: all .1s ease-in-out;
+}
+.title:hover {
+  cursor: pointer;
+  background-color: #DEEDEE;
+}

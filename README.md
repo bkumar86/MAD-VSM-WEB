@@ -20,6 +20,13 @@ VSM - Value Stream Mapping
 | Code-Style        | We use [ESLint](https://eslint.org/) together with [Prettier](https://prettier.io/) for linting and enforcing a consistent code-style.  |   
 | Authentication    | [@azure/msal-react](https://github.com/AzureAD/microsoft-authentication-library-for-js#readme) |
 
+### Features
+
+- Templates
+- Persisted global store (easy-peasy)
+- Sass
+- Msal-react authentication
+
 # Developing
 
 To get up and running:
