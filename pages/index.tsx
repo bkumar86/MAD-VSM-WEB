@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import commonStyles from "../styles/common.module.scss";
+import commonStyles from "../src/LayoutWrapper/common.module.scss";
 import Head from "next/head";
 import { Button, Icon, Tabs, Typography } from "@equinor/eds-core-react";
-import { Layouts } from "../layouts/LayoutWrapper";
+import { Layouts } from "../src/LayoutWrapper";
 import { account_circle, add } from "@equinor/eds-icons";
-import BaseAPIServices from "../services/BaseAPIServices";
+import BaseAPIServices from "../src/box/ClickHandler/VSMCanvas/storeHooks/store/BaseAPIServices";
 import { useRouter } from "next/router";
 import styles from "./projects/Projects.module.scss";
-import { projectTemplatesV1 } from "../assets/projectTemplatesV1";
+import { projectTemplatesV1 } from "../src/projectTemplatesV1";
 import { useAccount, useMsal } from "@azure/msal-react";
-import { ProjectListSection } from "../components/projectListSection";
+import { ProjectListSection } from "../src/projectListSection";
 
 const { TabList, Tab, TabPanels, TabPanel } = Tabs;
 

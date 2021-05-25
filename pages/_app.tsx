@@ -1,9 +1,9 @@
 import React from "react";
-import "../styles/globals.scss";
-import LayoutWrapper from "../layouts/LayoutWrapper";
-import AuthenticationProvider from "../auth/AuthenticationProvider";
+import "../src/globals.scss";
+import LayoutWrapper from "src/LayoutWrapper";
+import AuthenticationProvider from "src/AuthenticationProvider";
 import { StoreProvider } from "easy-peasy";
-import store from "../store/store";
+import store from "src/box/ClickHandler/VSMCanvas/store";
 import App, { AppContext } from "next/app";
 
 const MyApp = ({ Component, pageProps }) => {
@@ -26,4 +26,3 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
 
   return { ...appProps };
 };
-

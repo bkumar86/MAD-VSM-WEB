@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { loginRequest, msalConfig } from "../../Config";
 import { AuthError, InteractionType } from "@azure/msal-browser";
-import commonStyles from "../../styles/common.module.scss";
+import commonStyles from "../../src/LayoutWrapper/common.module.scss";
 import Link from "next/link";
 import { Button, Typography } from "@equinor/eds-core-react";
 
