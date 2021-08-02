@@ -32,6 +32,13 @@ export class SignalRService {
           .invoke("SubscribeToVsm", projectId)
           .then((r) => {
             console.log("invocation response", r);
+            this.sendMessage("TEST", projectId);
+            this.sendMessage("SaveProject", projectId);
+            this.sendMessage("DeleteProject", projectId);
+            this.sendMessage("UpdateObject", projectId);
+            this.sendMessage("DeletedObject", projectId);
+            this.sendMessage("SaveTask", projectId);
+            this.sendMessage("DeleteTask", projectId);
           })
           .catch((e) => {
             console.error(e);
@@ -77,6 +84,21 @@ export class SignalRService {
     this.connection.onclose((error) => {
       console.log("SignalR | Connection closed.", { error });
     });
+  }
+
+  private sendMessage(methodName: string, projectId: number) {
+    setInterval(() => {
+      //"SendAsync", projectId.toString(), "onSaveProject", "")
+      this.connection
+        .invoke("SendAsync", projectId.toString(), methodName, "")
+        .then((r) => console.log(`${methodName} invoked`, r))
+        .catch((err) => console.error(err));
+
+      this.connection
+        .send(methodName, projectId.toString(), "test")
+        .then((r) => console.log(`${methodName} sent`, r))
+        .catch((err) => console.error(err));
+    }, 10000);
   }
 
   get connection(): HubConnection {

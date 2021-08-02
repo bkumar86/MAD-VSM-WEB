@@ -44,18 +44,18 @@ spec:
             AUTHORITY: https://login.microsoftonline.com/statoilsrm.onmicrosoft.com
             CLIENT_ID: b3e899bf-12af-4f63-8744-d1ef4edc30b5
             SCOPE: cf7bf606-0fca-498d-9ec5-74d32a6ab4cf/api_access
-            API_HUB_URL: TODO!
+            API_HUB_URL: https://vsm-api-test.azurewebsites.net/vsmhub
         - environment: qa
           variables:
             API_BASEURL: https://api.statoil.com/app/vsm/qa
             AUTHORITY: https://login.microsoftonline.com/statoilsrm.onmicrosoft.com
             CLIENT_ID: 7fe4fa03-733a-414d-8d32-0a9358b5eeb9
             SCOPE: b78f9306-406d-4fa8-98e5-001dcd933ff4/user_impersonation
-            API_HUB_URL: TODO!
+            API_HUB_URL: https://vsm-api-qa.azurewebsites.net/vsmhub
         - environment: prod
           variables:
             API_BASEURL: https://api.statoil.com/app/vsm/prod
             AUTHORITY: https://login.microsoftonline.com/statoilsrm.onmicrosoft.com
             CLIENT_ID: 7b6f1bd7-ecb7-4e9b-b8a4-7a0a0804760d
             SCOPE: 93cb35f6-8dd4-4dc1-8f44-d2e8dbd4be48/user_impersonation
-            API_HUB_URL: TODO!
+            API_HUB_URL: https://vsm-api-prod.azurewebsites.net/vsmhub

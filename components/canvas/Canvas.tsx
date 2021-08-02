@@ -20,6 +20,7 @@ import { moveVSMObject, postVSMObject } from "../../services/vsmObjectApi";
 import { vsmObject } from "interfaces/VsmObject";
 import { unknownErrorToString } from "utils/isError";
 import { SignalRService } from "../../services/signalRService";
+import { setUpSignalRConnection } from "../../services/setUpSignalRConnection";
 
 export default function Canvas(): JSX.Element {
   const ref = useRef();
@@ -31,6 +32,14 @@ export default function Canvas(): JSX.Element {
   useEffect(() => {
     if (id) {
       const projectId = parseInt(id.toString(), 10);
+      // setUpSignalRConnection(projectId).then((hub) => {
+      //   hub.on("onUpdateObject", () => console.log("onUpdateObject"));
+      //   hub.on("onDeleteProject", () => console.log("onDeleteProject"));
+      //   hub.on("onDeleteTask", () => console.log("onDeleteTask"));
+      //   hub.on("onSaveProject", () => console.log("onSaveProject"));
+      //   hub.on("onSaveTask", () => console.log("onSaveTask"));
+      //   hub.on("onUpdateObject", () => console.log("onUpdateObject"));
+      // });
       const s = new SignalRService(projectId, {
         onDeleteObject: (e) => console.log("onDeleteObject", e),
         onDeleteProject: (e) => console.log("onDeleteProject", e),
