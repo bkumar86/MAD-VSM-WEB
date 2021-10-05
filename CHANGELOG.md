@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.5](https://github.com/equinor/MAD-VSM-WEB/compare/v0.2.1...v0.2.5) (2021-10-05)
+
+### Features
+
+- Add R to PQI's (R for Risk) ([1ae6f43](https://github.com/equinor/MAD-VSM-WEB/commit/1ae6f43b159e049b2f98c213f10dceb992e1384b)), closes [#155](https://github.com/equinor/MAD-VSM-WEB/issues/155)
+- **changelog:** add changelog page ([1afb860](https://github.com/equinor/MAD-VSM-WEB/commit/1afb860aeae9695dfabbaf8cbf6c8ed9085f7fb2))
+- create new vsm based on an existing one ([b3a5aaf](https://github.com/equinor/MAD-VSM-WEB/commit/b3a5aafb0eb37fa25115088ec3cd353f41a48108)), closes [#117](https://github.com/equinor/MAD-VSM-WEB/issues/117)
+- **duplicate:** add link to old project as metadata ([6039e7e](https://github.com/equinor/MAD-VSM-WEB/commit/6039e7e72e9bbc6b5b99f263a6bc9beb6d426897)), closes [#147](https://github.com/equinor/MAD-VSM-WEB/issues/147) [#146](https://github.com/equinor/MAD-VSM-WEB/issues/146)
+
+### Bug Fixes
+
+- **duplicate:** "Title (Duplicate of xx)" instead of "Duplicate of Title (xx)" ([ef98e79](https://github.com/equinor/MAD-VSM-WEB/commit/ef98e79988c258cfdf4f9f88599b34f349090b52)), closes [#117](https://github.com/equinor/MAD-VSM-WEB/issues/117)
+- **durationcomponent:** fix erros when updating time on a card ([c151820](https://github.com/equinor/MAD-VSM-WEB/commit/c151820db9b139fd341c725b6eeaa647ed1806ab)), closes [#111](https://github.com/equinor/MAD-VSM-WEB/issues/111)
+- **duration:** do not send request when no change ([015876a](https://github.com/equinor/MAD-VSM-WEB/commit/015876a1caa363221531eeac07a30f4e98c641b2)), closes [#139](https://github.com/equinor/MAD-VSM-WEB/issues/139) [#111](https://github.com/equinor/MAD-VSM-WEB/issues/111)
+- **snackmessage:** display notifications on top over the sidesheet ([6266b5b](https://github.com/equinor/MAD-VSM-WEB/commit/6266b5b68cfa8f1fb45354dc7e007ef371edc1f1)), closes [#130](https://github.com/equinor/MAD-VSM-WEB/issues/130)
+
 ### [0.2.4](https://github.com/equinor/MAD-VSM-WEB/compare/v0.2.1...v0.2.4) (2021-09-06)
 
 ### Features
