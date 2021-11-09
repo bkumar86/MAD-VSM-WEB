@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.12](https://github.com/equinor/MAD-VSM-WEB/compare/v0.2.1...v0.2.12) (2021-11-09)
+
+### Features
+
+- Add R to PQI's (R for Risk) ([1ae6f43](https://github.com/equinor/MAD-VSM-WEB/commit/1ae6f43b159e049b2f98c213f10dceb992e1384b)), closes [#155](https://github.com/equinor/MAD-VSM-WEB/issues/155)
+- Categorization page ([#251](https://github.com/equinor/MAD-VSM-WEB/issues/251)) ([3069642](https://github.com/equinor/MAD-VSM-WEB/commit/30696422e22460aa09a207ae079776c7b3e73c9b)), closes [#112](https://github.com/equinor/MAD-VSM-WEB/issues/112) [#221](https://github.com/equinor/MAD-VSM-WEB/issues/221) [#223](https://github.com/equinor/MAD-VSM-WEB/issues/223) [#222](https://github.com/equinor/MAD-VSM-WEB/issues/222)
+- **changelog:** add changelog page ([1afb860](https://github.com/equinor/MAD-VSM-WEB/commit/1afb860aeae9695dfabbaf8cbf6c8ed9085f7fb2))
+- create new vsm based on an existing one ([b3a5aaf](https://github.com/equinor/MAD-VSM-WEB/commit/b3a5aafb0eb37fa25115088ec3cd353f41a48108)), closes [#117](https://github.com/equinor/MAD-VSM-WEB/issues/117)
+- **duplicate:** add link to old project as metadata ([6039e7e](https://github.com/equinor/MAD-VSM-WEB/commit/6039e7e72e9bbc6b5b99f263a6bc9beb6d426897)), closes [#147](https://github.com/equinor/MAD-VSM-WEB/issues/147) [#146](https://github.com/equinor/MAD-VSM-WEB/issues/146)
+- enhanced front page design ([f38a817](https://github.com/equinor/MAD-VSM-WEB/commit/f38a81744dfb5d9314842da744d355008cb867b2)), closes [#220](https://github.com/equinor/MAD-VSM-WEB/issues/220)
+- improve discoverability on the frontpage ([4b59760](https://github.com/equinor/MAD-VSM-WEB/commit/4b59760481901318ede1053c28ff32ad8b0a0b7f)), closes [#113](https://github.com/equinor/MAD-VSM-WEB/issues/113)
+- redesign process card ([5648643](https://github.com/equinor/MAD-VSM-WEB/commit/56486434ddab435f9ef4fa573ef9df420ac1c0fb)), closes [#219](https://github.com/equinor/MAD-VSM-WEB/issues/219)
+- service-message banner ([d771b93](https://github.com/equinor/MAD-VSM-WEB/commit/d771b9358734cc691ca2497e0a872df6ce3aa27b)), closes [#224](https://github.com/equinor/MAD-VSM-WEB/issues/224)
+
+### Bug Fixes
+
+- center plus sign in add button ([cf1b74b](https://github.com/equinor/MAD-VSM-WEB/commit/cf1b74bc9a245c0590f753fa564b6ee303956d17)), closes [#237](https://github.com/equinor/MAD-VSM-WEB/issues/237)
+- **duplicate:** "Title (Duplicate of xx)" instead of "Duplicate of Title (xx)" ([ef98e79](https://github.com/equinor/MAD-VSM-WEB/commit/ef98e79988c258cfdf4f9f88599b34f349090b52)), closes [#117](https://github.com/equinor/MAD-VSM-WEB/issues/117)
+- **durationcomponent:** fix erros when updating time on a card ([c151820](https://github.com/equinor/MAD-VSM-WEB/commit/c151820db9b139fd341c725b6eeaa647ed1806ab)), closes [#111](https://github.com/equinor/MAD-VSM-WEB/issues/111)
+- **duration:** do not send request when no change ([015876a](https://github.com/equinor/MAD-VSM-WEB/commit/015876a1caa363221531eeac07a30f4e98c641b2)), closes [#139](https://github.com/equinor/MAD-VSM-WEB/issues/139) [#111](https://github.com/equinor/MAD-VSM-WEB/issues/111)
+- only show my projects in the myProjects tab ([#287](https://github.com/equinor/MAD-VSM-WEB/issues/287)) ([baa2b0d](https://github.com/equinor/MAD-VSM-WEB/commit/baa2b0d6700a4acbade0ccd5c9a045573fec04db)), closes [#286](https://github.com/equinor/MAD-VSM-WEB/issues/286)
+- **service-message:** Hide the service-message-banner when there is no active message. ([62295f4](https://github.com/equinor/MAD-VSM-WEB/commit/62295f480d5e2781f06a2684233b7cded506a373)), closes [#259](https://github.com/equinor/MAD-VSM-WEB/issues/259)
+- **service-message:** service-message should not be indented, but fill the full screen ([#267](https://github.com/equinor/MAD-VSM-WEB/issues/267)) ([132e61a](https://github.com/equinor/MAD-VSM-WEB/commit/132e61a93bdb0d517800ba49dab80996e9c50687)), closes [#234](https://github.com/equinor/MAD-VSM-WEB/issues/234) [#256](https://github.com/equinor/MAD-VSM-WEB/issues/256)
+- **snackmessage:** display notifications on top over the sidesheet ([6266b5b](https://github.com/equinor/MAD-VSM-WEB/commit/6266b5b68cfa8f1fb45354dc7e007ef371edc1f1)), closes [#130](https://github.com/equinor/MAD-VSM-WEB/issues/130)
+- url-encode the search query ([#278](https://github.com/equinor/MAD-VSM-WEB/issues/278)) ([b09785c](https://github.com/equinor/MAD-VSM-WEB/commit/b09785c3666b56b333b852b3a4182e1e4b1da849)), closes [#277](https://github.com/equinor/MAD-VSM-WEB/issues/277)
+
 ### [0.2.11](https://github.com/equinor/MAD-VSM-WEB/compare/v0.2.1...v0.2.11) (2021-11-05)
 
 ### Features
