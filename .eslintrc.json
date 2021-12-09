@@ -7,7 +7,8 @@
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended",
     "plugin:you-dont-need-lodash-underscore/compatible",
-    "unused-imports/warn"
+    "unused-imports/warn",
+    "simple-import-sort"
   ],
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -25,7 +26,8 @@
   "rules": {
     "react/prop-types": ["off"],
     "sonarjs/cognitive-complexity": ["warn", 5],
-    "sort-imports": ["warn"],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": [
