@@ -1,5 +1,5 @@
-import BaseAPIServices from "./BaseAPIServices";
 import { AxiosPromise } from "axios";
+import BaseAPIServices from "./BaseAPIServices";
 
 /**
  * Give a new user access to a vsm
@@ -43,8 +43,15 @@ export const remove = (props: {
  * Gets the access for the specified user in the specified Vsm
  * @param props
  */
-export const get = ({ vsmId, userName }) => {
-  return BaseAPIServices.get(`/api/v1.0/userAccess/${vsmId}/${userName}`).then(
-    (res) => res.data
+export const get = async ({
+  vsmId,
+  userName,
+}: {
+  vsmId: number;
+  userName: string;
+}): Promise<unknown> => {
+  const res = await BaseAPIServices.get(
+    `/api/v1.0/userAccess/${vsmId}/${userName}`
   );
+  return res.data;
 };

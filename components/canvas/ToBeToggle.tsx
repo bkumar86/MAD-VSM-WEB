@@ -1,13 +1,15 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { useMutation, useQuery } from "react-query";
 import { createProject, getProject } from "../../services/projectApi";
-import { vsmProject } from "../../interfaces/VsmProject";
-import { projectTemplatesV1 } from "../../assets/projectTemplatesV1";
-import { getMyAccess } from "utils/getMyAccess";
 import { useAccount, useMsal } from "@azure/msal-react";
-import { ToggleButtonGroup } from "components/ToggleButtonGroup";
+import { useMutation, useQuery } from "react-query";
+
+import React from "react";
 import { ToggleButton } from "components/ToggleButton";
+import { ToggleButtonGroup } from "components/ToggleButtonGroup";
+import { getMyAccess } from "utils/getMyAccess";
+import { projectTemplatesV1 } from "../../assets/projectTemplatesV1";
+import { useRouter } from "next/router";
+import { userCanEdit } from "utils/userCanEdit";
+import { vsmProject } from "../../interfaces/VsmProject";
 
 export const ToBeToggle = (): JSX.Element => {
   const router = useRouter();
@@ -18,7 +20,6 @@ export const ToBeToggle = (): JSX.Element => {
   const { accounts } = useMsal();
   const account = useAccount(accounts[0] || {});
   const myAccess = getMyAccess(project, account);
-  const userCanEdit = myAccess === "Admin" || myAccess === "Contributor";
 
   const newProjectMutation = useMutation(() => {
     return createProject({
@@ -61,7 +62,7 @@ export const ToBeToggle = (): JSX.Element => {
           name="To be"
           selected={!!project?.currentProcessId} // currentProcessId is truthy if we are on the "To-be"-process.
           disabled={
-            !userCanEdit &&
+            !userCanEdit(myAccess) &&
             !(project?.toBeProcessID || project?.currentProcessId)
           }
           onClick={() => {

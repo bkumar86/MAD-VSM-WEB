@@ -1,23 +1,25 @@
-import style from "./AccessBox.module.scss";
+import * as userApi from "../services/userApi";
+
 import { Button, Icon, Input } from "@equinor/eds-core-react";
-import { UserDot } from "./UserDot";
 import React, { useState } from "react";
 import { close, link } from "@equinor/eds-icons";
-import { accessRoles } from "../types/AccessRoles";
-import { vsmProject } from "../interfaces/VsmProject";
-import BaseAPIServices from "../services/BaseAPIServices";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import * as userApi from "../services/userApi";
-import { unknownErrorToString } from "utils/isError";
-import { useStoreDispatch } from "hooks/storeHooks";
-import { useRouter } from "next/router";
-import { notifyOthers } from "../services/notifyOthers";
 import { useAccount, useMsal } from "@azure/msal-react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+
+import BaseAPIServices from "../services/BaseAPIServices";
+import { UserDot } from "./UserDot";
+import { accessRoles } from "../types/AccessRoles";
+import { notifyOthers } from "../services/notifyOthers";
+import style from "./AccessBox.module.scss";
+import { unknownErrorToString } from "utils/isError";
+import { useRouter } from "next/router";
+import { useStoreDispatch } from "hooks/storeHooks";
+import { vsmProject } from "../interfaces/VsmProject";
 
 export function AccessBox(props: {
   project: vsmProject;
   handleClose;
-  isAdmin: boolean;
+  canEdit: boolean;
 }): JSX.Element {
   const { data: userAccesses, isLoading } = useQuery(
     ["userAccesses", props.project.vsmProjectID],
@@ -33,7 +35,9 @@ export function AccessBox(props: {
   if (!props.project) return <p>Missing project</p>;
   const { created, vsmProjectID } = props.project;
 
-  const owner = created.userIdentity;
+  const owner = props.project.userAccesses.find(
+    (ua) => ua.role === "Owner"
+  ).user;
   return (
     <div className={style.box}>
       <TopSection title={"User access"} handleClose={props.handleClose} />
@@ -42,7 +46,7 @@ export function AccessBox(props: {
         users={userAccesses}
         vsmId={vsmProjectID}
         loading={isLoading}
-        isAdmin={props.isAdmin}
+        canEdit={props.canEdit}
       />
       <BottomSection vsmProjectID={props.project.vsmProjectID} />
     </div>
@@ -129,7 +133,7 @@ function MiddleSection(props: {
   users: { accessId: number; user: string; role: string }[];
   vsmId: number;
   loading: boolean;
-  isAdmin: boolean;
+  canEdit: boolean;
 }) {
   const dispatch = useStoreDispatch();
   const [userInput, setEmailInput] = useState("");
@@ -194,7 +198,7 @@ function MiddleSection(props: {
     <>
       <form className={style.emailSection} onSubmit={handleSubmit}>
         <Input
-          disabled={!props.isAdmin}
+          disabled={!props.canEdit}
           autoFocus
           type={"text"}
           // pattern={"[Bb]anana|[Cc]herry"} //Todo: pattern match?
@@ -203,11 +207,11 @@ function MiddleSection(props: {
           onChange={(event) => setEmailInput(event.target.value)}
         />
         <span style={{ padding: 4 }} />
-        <Button type={"submit"} variant={"contained"} disabled={!props.isAdmin}>
+        <Button type={"submit"} variant={"contained"} disabled={!props.canEdit}>
           {props.loading ? "Adding..." : "Add"}
         </Button>
       </form>
-      {!props.isAdmin && (
+      {!props.canEdit && (
         <div className={style.infoCannotEdit}>
           <p>You need to be owner or admin to manage sharing</p>
         </div>
@@ -215,20 +219,24 @@ function MiddleSection(props: {
       <div className={style.middleSection}>
         <div className={style.userListSection}>
           <OwnerItem owner={props.owner} />
-          {props.users?.map((user) => (
-            <UserItem
-              key={user.accessId}
-              user={user}
-              onRoleChange={(role) => changeUserMutation.mutate({ user, role })}
-              onRemove={() =>
-                removeUserMutation.mutate({
-                  accessId: user.accessId,
-                  vsmId: props.vsmId,
-                })
-              }
-              disabled={!props.isAdmin}
-            />
-          ))}
+          {props.users
+            ?.filter((user) => user.role !== "Owner") // Remove owner from list. Owner cannot be changed as of now
+            .map((user) => (
+              <UserItem
+                key={user.accessId}
+                user={user}
+                onRoleChange={(role) =>
+                  changeUserMutation.mutate({ user, role })
+                }
+                onRemove={() =>
+                  removeUserMutation.mutate({
+                    accessId: user.accessId,
+                    vsmId: props.vsmId,
+                  })
+                }
+                disabled={!props.canEdit}
+              />
+            ))}
         </div>
       </div>
     </>

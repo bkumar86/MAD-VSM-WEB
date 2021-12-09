@@ -1,4 +1,3 @@
-import Head from "next/head";
 import {
   Button,
   Icon,
@@ -8,28 +7,31 @@ import {
   TopBar,
   Typography,
 } from "@equinor/eds-core-react";
-import { chevron_down, close, share } from "@equinor/eds-icons";
-import styles from "./default.layout.module.scss";
-import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
 import React, { useEffect, useState } from "react";
-import UserMenu from "../components/AppHeader/UserMenu";
-import { useStoreDispatch, useStoreState } from "../hooks/storeHooks";
-import { useRouter } from "next/router";
-import BaseAPIServices from "../services/BaseAPIServices";
-import { HomeButton } from "./homeButton";
-import { RightTopBarSection } from "../components/RightTopBarSection";
-import { disableMouseWheelZoom } from "../utils/disableMouseWheelZoom";
-import { disableKeyboardZoomShortcuts } from "../utils/disableKeyboardZoomShortcuts";
-import { MySnackBar } from "../components/MySnackBar";
-import { AccessBox } from "../components/AccessBox";
-import { getMyAccess } from "../utils/getMyAccess";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { chevron_down, close, share } from "@equinor/eds-icons";
 import { getProject, updateProject } from "../services/projectApi";
-import { debounce } from "../utils/debounce";
-import { unknownErrorToString } from "../utils/isError";
-import packageJson from "../package.json";
-import { notifyOthers } from "../services/notifyOthers";
+import { useAccount, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useStoreDispatch, useStoreState } from "../hooks/storeHooks";
+
+import { AccessBox } from "../components/AccessBox";
+import BaseAPIServices from "../services/BaseAPIServices";
+import Head from "next/head";
+import { HomeButton } from "./homeButton";
+import { MySnackBar } from "../components/MySnackBar";
+import { RightTopBarSection } from "../components/RightTopBarSection";
 import { TooltipImproved } from "../components/TooltipImproved";
+import UserMenu from "../components/AppHeader/UserMenu";
+import { debounce } from "../utils/debounce";
+import { disableKeyboardZoomShortcuts } from "../utils/disableKeyboardZoomShortcuts";
+import { disableMouseWheelZoom } from "../utils/disableMouseWheelZoom";
+import { getMyAccess } from "../utils/getMyAccess";
+import { notifyOthers } from "../services/notifyOthers";
+import packageJson from "../package.json";
+import styles from "./default.layout.module.scss";
+import { unknownErrorToString } from "../utils/isError";
+import { useRouter } from "next/router";
+import { userCanEdit } from "utils/userCanEdit";
 
 const CanvasLayout = ({ children }): JSX.Element => {
   const isAuthenticated = useIsAuthenticated();
@@ -62,8 +64,7 @@ const CanvasLayout = ({ children }): JSX.Element => {
   const { accounts } = useMsal();
   const account = useAccount(accounts[0] || {});
   const myAccess = getMyAccess(project, account);
-  const userCanEdit = myAccess === "Admin" || myAccess === "Contributor";
-  const userCannotEdit = !userCanEdit;
+  const userCannotEdit = !userCanEdit(myAccess);
   const isAdmin = myAccess === "Admin";
 
   const [visibleShareScrim, setVisibleShareScrim] = React.useState(false);
@@ -303,7 +304,7 @@ const CanvasLayout = ({ children }): JSX.Element => {
           <AccessBox
             project={project}
             handleClose={handleCloseShareScrim}
-            isAdmin={isAdmin}
+            canEdit={userCanEdit(myAccess)}
           />
         </Scrim>
       )}

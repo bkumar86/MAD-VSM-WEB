@@ -1,9 +1,10 @@
-import BaseAPIServices from "./BaseAPIServices";
-import { projectTemplatesV1 } from "../assets/projectTemplatesV1";
 import { AxiosPromise, AxiosResponse } from "axios";
-import { vsmProject } from "../interfaces/VsmProject";
+
+import BaseAPIServices from "./BaseAPIServices";
 import { createUrlParams } from "../utils/createUrlParams";
 import { processLabel } from "interfaces/processLabel";
+import { projectTemplatesV1 } from "../assets/projectTemplatesV1";
+import { vsmProject } from "../interfaces/VsmProject";
 
 const baseUrl = "/api/v1.0";
 //Project aka. VSM aka. Flyt or Flow
@@ -63,7 +64,22 @@ export const getLabels = (id: number): Promise<processLabel> =>
     (value) => value.data
   );
 
+/**
+ * Reset process to default template
+ * @param id
+ */
 export const resetProcess = (
   id: number | string | string[]
 ): Promise<AxiosResponse> =>
   BaseAPIServices.patch(`${baseUrl}/project/${id}/reset`, null);
+
+/**
+ * Get a list of changes for a process
+ * @param id Process ID
+ * @returns Changelog
+ */
+export const updates = (id: number): Promise<AxiosResponse> => {
+  return BaseAPIServices.get(`${baseUrl}/project/${id}/updates`).then(
+    (value) => value.data
+  );
+};
