@@ -78,8 +78,9 @@ export const resetProcess = (
  * @param id Process ID
  * @returns Changelog
  */
-export const updates = (id: number): Promise<AxiosResponse> => {
-  return BaseAPIServices.get(`${baseUrl}/project/${id}/updates`).then(
+export const updates = (
+  id: number | string | string[]
+): Promise<Array<unknown>> =>
+  BaseAPIServices.get(`${baseUrl}/project/${id}/updates`).then(
     (value) => value.data
   );
-};

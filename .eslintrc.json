@@ -6,9 +6,7 @@
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended",
-    "plugin:you-dont-need-lodash-underscore/compatible",
-    "unused-imports/warn",
-    "simple-import-sort"
+    "plugin:you-dont-need-lodash-underscore/compatible"
   ],
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -25,19 +23,6 @@
   },
   "rules": {
     "react/prop-types": ["off"],
-    "sonarjs/cognitive-complexity": ["warn", 5],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "no-unused-vars": "off",
-    "unused-imports/no-unused-imports": "error",
-    "unused-imports/no-unused-vars": [
-      "warn",
-      {
-        "vars": "all",
-        "varsIgnorePattern": "^_",
-        "args": "after-used",
-        "argsIgnorePattern": "^_"
-      }
-    ]
+    "sonarjs/cognitive-complexity": ["warn", 5]
   }
 }
