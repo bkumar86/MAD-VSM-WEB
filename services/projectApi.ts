@@ -1,9 +1,10 @@
-import BaseAPIServices from "./BaseAPIServices";
-import { projectTemplatesV1 } from "../assets/projectTemplatesV1";
 import { AxiosPromise, AxiosResponse } from "axios";
-import { vsmProject } from "../interfaces/VsmProject";
+
+import BaseAPIServices from "./BaseAPIServices";
 import { createUrlParams } from "../utils/createUrlParams";
 import { processLabel } from "interfaces/processLabel";
+import { projectTemplatesV1 } from "../assets/projectTemplatesV1";
+import { vsmProject } from "../interfaces/VsmProject";
 
 const baseUrl = "/api/v1.0";
 //Project aka. VSM aka. Flyt or Flow
@@ -14,7 +15,7 @@ export const getProjects = (filter?: {
   page?: number;
   items?: number;
   onlyFavorites?: boolean;
-  rl?: string[] | string;
+  rl?: number[];
 }): Promise<{ projects: vsmProject[]; totalItems: number }> =>
   BaseAPIServices.get(`${baseUrl}/project${createUrlParams(filter)}`).then(
     (value) => {
@@ -23,13 +24,6 @@ export const getProjects = (filter?: {
         totalItems: parseInt(value.headers.totalitems, 10),
       };
     }
-  );
-
-export const searchUser = (
-  userName: string
-): Promise<Array<{ pkUser: number; userName: string }>> =>
-  BaseAPIServices.get(`${baseUrl}/useraccess/usersearch?q=${userName}`).then(
-    (value) => value.data
   );
 
 export const createProject = (
